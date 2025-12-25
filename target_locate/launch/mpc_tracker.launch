@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<launch>
+    <arg name = "drone_name"/>
+    <arg name = "dis_x"/>
+    <arg name = "dis_y"/>
+    <arg name = "mode"/>
+    <group ns="$(arg drone_name)">
+        <node pkg="target_locate" name="mpc_tracker_$(arg drone_name)" type="mpc_trajectory_follower" output="screen">
+            <param name="drone_name" value="$(arg drone_name)" />
+            <param name="dis_x" value="$(arg dis_x)" />
+            <param name="dis_y" value="$(arg dis_y)" />
+            <param name="mode" value="$(arg mode)" />
+        </node>
+    </group>
+</launch>

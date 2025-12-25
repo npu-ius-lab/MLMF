@@ -1,0 +1,3 @@
+<launch>
+    <node pkg="target_locate" type="multi_target_cmd.py" name="multi_target_cmd" output="screen" />
+</launch>

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- Define the drone_ip and local_ip arguments with default values -->
+    <arg name ="drone_name_1" default="obs_01" />
+    <arg name ="drone_name_2" default="obs_02" />
+    <arg name ="dis_x_1" default="-2.595" />
+    <arg name ="dis_y_1" default=" 1.5" />
+    <arg name ="dis_x_2" default="-2.595" />
+    <arg name ="dis_y_2" default="-1.5" />
+    <arg name ="mode_1" default="1" />
+    <arg name ="mode_2" default="2" />
+    <include file="$(find target_locate)/launch/mpc_tracker.launch">
+        <arg name ="drone_name" value="$(arg drone_name_1)" />
+        <arg name ="dis_x" value="$(arg dis_x_1)" />
+        <arg name ="dis_y" value="$(arg dis_y_1)" />
+        <arg name ="mode" value="$(arg mode_1)" />
+    </include>
+    <include file="$(find target_locate)/launch/mpc_tracker.launch">
+        <arg name ="drone_name" value="$(arg drone_name_2)" />
+        <arg name ="dis_x" value="$(arg dis_x_2)" />
+        <arg name ="dis_y" value="$(arg dis_y_2)" />
+        <arg name ="mode" value="$(arg mode_2)" />
+    </include>
+</launch>

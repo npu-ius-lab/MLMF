@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+
+<launch>
+    <!-- Simulation control -->
+    <arg name="paused" default="false"/>
+    <arg name="use_sim_time" default="true"/>
+    <arg name="gui" default="true"/>
+    <arg name="headless" default="false"/>
+    <arg name="debug" default="false"/>
+    <arg name="target_model" default="$(find hector_quadrotor_description)/urdf/quadrotor.gazebo.xacro"/>
+    <!-- === Target UAVs === -->
+    <arg name="target_01_x" default="3.0"/>
+    <arg name="target_01_y" default="3.0"/>
+    <arg name="target_01_z" default="0.1"/>
+
+    <arg name="target_02_x" default="3.0"/>
+    <arg name="target_02_y" default="0.0"/>
+    <arg name="target_02_z" default="0.1"/>
+
+    <arg name="target_03_x" default="3.0"/>
+    <arg name="target_03_y" default="-3.0"/>
+    <arg name="target_03_z" default="0.1"/>
+
+    <!-- === Observer UAVs === -->
+    <arg name="obs_01_x" default="-3.0"/>
+    <arg name="obs_01_y" default=" 6.0"/>
+    <arg name="obs_01_z" default="0.1"/>
+    <arg name="obs_01_yaw" default="-0.785"/>
+
+    <arg name="obs_02_x" default="-3.0"/>
+    <arg name="obs_02_y" default="-6.0"/>
+    <arg name="obs_02_z" default="0.1"/>
+    <arg name="obs_02_yaw" default="0.785"/>
+
+    <!-- Gazebo world -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(find hector_gazebo_worlds)/worlds/empty_world.world"/>
+        <arg name="paused" value="$(arg paused)"/>
+        <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+        <arg name="gui" value="$(arg gui)"/>
+        <arg name="headless" value="$(arg headless)"/>
+        <arg name="debug" value="$(arg debug)"/>
+    </include>
+
+    <!-- Target UAVs -->
+    <group ns="target_01">
+        <include file="$(find hector_quadrotor_gazebo)/launch/spawn_quadrotor.launch">
+            <arg name="name" value="target_01"/>
+            <arg name="tf_prefix" value="target_01"/>
+            <arg name="model" value="$(arg target_model)"/>
+            <arg name="x" value="$(arg target_01_x)"/>
+            <arg name="y" value="$(arg target_01_y)"/>
+            <arg name="z" value="$(arg target_01_z)"/>
+        </include>
+    </group>
+
+    <group ns="target_02">
+        <include file="$(find hector_quadrotor_gazebo)/launch/spawn_quadrotor.launch">
+            <arg name="name" value="target_02"/>
+            <arg name="tf_prefix" value="target_02"/>
+            <arg name="model" value="$(arg target_model)"/>
+            <arg name="x" value="$(arg target_02_x)"/>
+            <arg name="y" value="$(arg target_02_y)"/>
+            <arg name="z" value="$(arg target_02_z)"/>
+        </include>
+    </group>
+
+    <group ns="target_03">
+        <include file="$(find hector_quadrotor_gazebo)/launch/spawn_quadrotor.launch">
+            <arg name="name" value="target_03"/>
+            <arg name="tf_prefix" value="target_03"/>
+            <arg name="model" value="$(arg target_model)"/>
+            <arg name="x" value="$(arg target_03_x)"/>
+            <arg name="y" value="$(arg target_03_y)"/>
+            <arg name="z" value="$(arg target_03_z)"/>
+        </include>
+    </group>
+
+    <!-- Observer UAVs -->
+    <group ns="obs_01">
+        <include file="$(find hector_quadrotor_gazebo)/launch/spawn_tello.launch">
+            <arg name="name" value="obs_01"/>
+            <arg name="tf_prefix" value="obs_01"/>
+            <arg name="x" value="$(arg obs_01_x)"/>
+            <arg name="y" value="$(arg obs_01_y)"/>
+            <arg name="z" value="$(arg obs_01_z)"/>
+            <arg name="yaw" value="$(arg obs_01_yaw)"/>
+        </include>
+    </group>
+
+    <group ns="obs_02">
+        <include file="$(find hector_quadrotor_gazebo)/launch/spawn_tello.launch">
+            <arg name="name" value="obs_02"/>
+            <arg name="tf_prefix" value="obs_02"/>
+            <arg name="x" value="$(arg obs_02_x)"/>
+            <arg name="y" value="$(arg obs_02_y)"/>
+            <arg name="z" value="$(arg obs_02_z)"/>
+            <arg name="yaw" value="$(arg obs_02_yaw)"/>
+        </include>
+    </group>
+
+    <node pkg="hector_quadrotor_demo" type="uav_altitude_controller.py" name="uav_altitude_controller" output="screen"/>
+    <!-- Start rviz visualization with preset config -->
+   <!-- <node pkg="rviz" type="rviz" name="rviz" args="-d $(find hector_quadrotor_demo)/rviz_cfg/demo.rviz"/> -->
+</launch>

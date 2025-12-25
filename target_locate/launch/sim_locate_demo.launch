@@ -1,0 +1,21 @@
+<launch>
+    <!-- 设置无人机机体坐标系与无人机相机坐标系名称 -->
+    <arg name="uav_1" default="obs_01" />
+    <arg name="uav_2" default="obs_02" />
+  
+    <param name="camera_link_1" type="string" value="$(arg uav_1)/camera_optical_frame" />
+    <param name="camera_link_2" type="string" value="$(arg uav_2)/camera_optical_frame" />
+    
+    <!-- 相机内参 -->
+    <rosparam param="camera_matrix_01" >[554.3827128226441, 0.0, 320.5, 0.0, 554.3827128226441, 240.5, 0.0, 0.0, 1.0]</rosparam>
+    <rosparam param="camera_matrix_02" >[554.3827128226441, 0.0, 320.5, 0.0, 554.3827128226441, 240.5, 0.0, 0.0, 1.0]</rosparam>
+    <!-- 计算单目标定位位置并发布滤波后定位数据 -->
+    <node pkg="target_locate" type="sim_demo_node" name="sim_demo_node" output="screen" respawn="true" >
+      <remap from="/detect_msg_1" to="/obs_01/BoundingBoxes" />
+      <remap from="/detect_msg_2" to="/obs_02/BoundingBoxes" />
+      <remap from="/image_1" to="/obs_01/Image" />
+      <remap from="/image_2" to="/obs_02/Image" />
+    </node>
+    <node pkg="rviz" type="rviz" name="demo_locate_rviz" args="-d $(find target_locate)/rviz/demo_locate.rviz" />
+  </launch>
+  

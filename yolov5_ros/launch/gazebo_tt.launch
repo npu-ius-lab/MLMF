@@ -1,0 +1,35 @@
+<launch>
+    <arg name="device"                default="0"/>
+    <arg name="hide_label"            default="true"/> 
+    <arg name="conf_thresh"           default="0.4"/>
+    <arg name="view_image"            default="true"/>
+    <arg name="weights"               default="$(find yolov5_ros)/tello_gazebo.pt"/>
+    <arg name="data"                  default="$(find yolov5_ros)/src/yolov5/data/tello.yaml"/>
+
+    <node pkg="yolov5_ros" name="detect_01" type="detect_tt.py" output="screen">
+        <param name="weights"               value="$(arg weights)"/>
+        <param name="data"                  value="$(arg data)"  />
+        <param name="device"                value="$(arg device)"/>
+    	<param name="window_name"           value="obs_01"/>
+        <param name="view_image"            value="$(arg view_image)"/>
+	    <param name="hide_label"            value="$(arg hide_label)"/>
+        <param name="conf_thresh"           value="$(arg conf_thresh)"/>
+        <remap from="/input"                to="/obs_01/image_raw"/>
+        <remap from="/yolo/bbx"             to="/obs_01/BoundingBoxes" />
+        <remap from="/yolo/img"             to="/obs_01/Image" />
+    </node>
+
+    <node pkg="yolov5_ros" name="detect_02" type="detect_tt.py" output="screen">
+        <param name="weights"               value="$(arg weights)"/>
+        <param name="data"                  value="$(arg data)"  />
+        <param name="device"                value="$(arg device)"/>
+    	<param name="window_name"           value="obs_02"/>
+	    <param name="hide_label"            value="$(arg hide_label)"/>
+        <param name="view_image"            value="$(arg view_image)"/>
+        <param name="conf_thresh"           value="$(arg conf_thresh)"/>
+        <remap from="/input"                to="/obs_02/image_raw" />
+        <remap from="/yolo/bbx"             to="/obs_02/BoundingBoxes" />
+        <remap from="/yolo/img"             to="/obs_02/Image" />
+    </node>
+
+</launch>
