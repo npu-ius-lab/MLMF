@@ -119,7 +119,7 @@ year = {2025},
 month = {10},
 pages = {18856-18863},
 title = {Multi-target Association and Localization with Distributed Drone Following: A Factor Graph Approach},
-booktitle    = {Proceedings of the 2025 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)},
+booktitle = {Proceedings of the 2025 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)},
 doi = {10.1109/IROS60139.2025.11247561}
 }
 ```
